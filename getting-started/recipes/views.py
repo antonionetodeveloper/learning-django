@@ -49,9 +49,7 @@ def add_author(request):
     body = json.loads(request.body)
     if request.method == "POST":
         try:
-            data = {
-                "name": body.get("name")
-            }
+            data = {"name": body.get("name")}
             serializer = AuthorForm(data=data)
             serializer.save()
             return JsonResponse({"message": "success "}, status=201)
@@ -62,6 +60,3 @@ def add_author(request):
             )
 
     return JsonResponse({"message": "Method not allowed"}, status=405)
-
-
-
