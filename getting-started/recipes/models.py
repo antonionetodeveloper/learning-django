@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ModelForm
 
 
 class Category(models.Model):
@@ -21,6 +22,12 @@ class Author(models.Model):
         return self.name
 
 
+class AuthorForm(ModelForm):
+    class Meta:
+        model = Author
+        fields = ["name"]
+
+
 class Recipe(models.Model):
     id = models.AutoField(primary_key=True)
     slug = models.SlugField(max_length=65, unique=True)
@@ -34,8 +41,8 @@ class Recipe(models.Model):
     preparation_steps_is_html = models.BooleanField(default=False)
     is_published = models.BooleanField(default=False)
     cover = models.ImageField(upload_to="recipes/covers/%Y/%m/%d/")
-    category = models.ForeignKey("Category", on_delete=models.CASCADE, null=True)
-    author = models.ForeignKey("Author", on_delete=models.CASCADE, null=True)
+    category = models.ForeignKey("Category", on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey("Author", on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
